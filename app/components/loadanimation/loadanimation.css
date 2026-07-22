@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+.typing-text {
+  white-space: nowrap;
+  overflow: hidden;
+  height:fit-content;
+  border-right: 4px solid black;
+  animation: typing 4s steps(20, end) infinite, blink 0.7s step-end infinite;
+}
+
+@keyframes typing {
+  0% { width: 0; }
+  100% { width: 120%; }
+}
+
+@keyframes blink {
+  50% { border-color: transparent; }
+}
+
