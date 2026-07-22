@@ -19,7 +19,7 @@ const Navbar = () => {
   }, [session,status])
   
   return (
-    <div className="m-0 z-30 sticky w-[1263px] px-4 bg-[#c8a96a] flex justify-between items-center" >
+    <div className="m-0 z-30 sticky lg:w-[1263px] w-[100ve] px-4 bg-[#c8a96a] flex justify-between items-center" >
       <div className="logo md:px-2 justify-center items-center flex gap-2">
         <Image src="/AllUre.png" className='md:scale-100 scale-75' alt="Logo" width={70} height={70} />
         <span className="md:text-2xl text-xl font-bold">AllUre</span>
