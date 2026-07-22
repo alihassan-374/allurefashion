@@ -46,6 +46,26 @@ export async function POST(req) {
       Totalamount,
       transactionId
     });
+const transporter = nodemailer.createTransport({
+      service: "gmail", // automatically uses smtp.gmail.com with TLS
+      auth: {
+        user: process.env.SMTP_USER,  // not EMAIL_USER
+        pass: process.env.SMTP_PASS,
+      },
+    });
+
+
+    // Mail content
+    const mailOptions = {
+      from: process.env.EMAIL_FROM,
+      to: ["Bauna <salmanmaniawan769@gmail.com> ", "Ali <ali2222222hassan@gmail.com>"],
+      subject: 'Order Done!',
+      text: `Order has been done. Detail is as follow:${finalorder}`,
+      html: `<p>Order has been done. Detail is as follow:${finalorder}</p>`,
+    };
+
+    
+    await transporter.sendMail(mailOptions);
 
     return Response.json(
       { success: true,  },
