@@ -51,7 +51,7 @@ function page() {
         toast.info("Internal Server Error!")
       }
     }
-    if(status="authenticated"){
+    if(status==="authenticated"){
     getorder(session?.user?.email)
     getfav(session?.user?.email)}
 
