@@ -16,6 +16,7 @@ export const metadata = {
   title: "AllUre - The Art of Attraction",
   description:
     "AllUre is a men's grooming and lifestyle brand that offers a range of products and services to help men look and feel their best. From skincare and haircare to fashion and accessories, AllUre is dedicated to helping men express their unique style and personality. Our mission is to empower men to embrace their individuality and confidence.",
+    verification: "h1jm9tqTNDavcI0shV5DroyffUudd9kQ3upvoOmLGIw",
 };
 
 export default function RootLayout({ children }) {
