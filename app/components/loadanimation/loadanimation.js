@@ -25,7 +25,7 @@ export default function Intro({ onFinish }) {
 
   return (
       <div className="h-screen w-screen bg-[#121212] flex flex-col justify-start items-center">
-<div className="flex flex-col my-auto justify-center items-center">
+<div className="flex flex-col my-auto w-full h-full justify-center items-center">
   <span
         className={`typing-text md:text-4xl text-2xl relative bottom-[25vh] font-bold text-[#c8a96a] block`}
       >

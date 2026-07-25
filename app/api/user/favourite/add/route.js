@@ -30,6 +30,7 @@ export async function POST(req) {
             title: productdata.title,
             price: productdata.price,
             mainimg: productdata.mainimg,
+            catogery:productdata.catogery,
         }
         console.log(finalproduct)
         const updatedUser = await User.findOneAndUpdate(

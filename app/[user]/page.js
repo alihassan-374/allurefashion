@@ -11,6 +11,7 @@ function page() {
   const router = useRouter()
   const [Name, setName] = useState("Guest")
   const [gridcol, setgridcol] = useState(true)
+  const [gridcol2, setgridcol2] = useState(true)
   const [Order, setOrder] = useState([])
   const [ImageError, setImageError] = useState({})
   const [fav, setfav] = useState([])
@@ -31,11 +32,21 @@ function page() {
         const data = await res.json();
         if (data.success) {
           setOrder(data.Orderdetail);
-        } else {
-          toast.info("Order Not Found!Please Order something!")
+        } else if(data.message === "Internal Server Error!"){
+          toast.info("Internal Server Error!")
+        }
+        if(Order.length > 0){
+          setgridcol(false)
+        }else{
+          setgridcol(true)
+        }
+        if(fav.length > 0){
+          setgridcol(false)
+        }else{
+          setgridcol(true)
         }
       } catch (error) {
-        toast.error("No Order found due to Internal Server Error!")
+        toast.error("Internal Server Error!")
       }
     }
     async function getfav(email) {
@@ -44,6 +55,7 @@ function page() {
         const data = await res.json()
         if (data.success) {
           setfav(data.favourite)
+          console.log(data.favourite)
         } else (
           toast.info("Please Add something into Favourites")
         )
@@ -64,12 +76,46 @@ function page() {
       const data = await res.json()
       if (data.success) {
         toast.success("Deleted Successfully!")
-        Order.filter(i => i._id !== id)
+          setOrder(prev => prev.filter(i => i.prodcutId !== id));
       } else {
         toast.info("Could Not Delete Order.Try Again!")
       }
     } catch (error) {
       toast.error("Internal Server Error!")
+    }
+  }
+
+  async function deletefav(id){
+try {
+      if (status === "authenticated") {
+
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        const raw = JSON.stringify({
+          email: session.user.email,
+          productId: id
+        });
+        const requestOptions = {
+          method: "DELETE",
+          headers: myHeaders,
+          body: raw,
+          redirect: "follow"
+        };
+
+        const res = await fetch("/api/user/favourite/delete", requestOptions);
+        const data = await res.json();
+        if (data.success) {
+          toast.success(data.message);
+          setfav(prev => prev.filter(i => i._id !== id));
+        } else {
+          toast.error(data.message)
+        }
+      } else {
+        router.push("/singup")
+      }
+    } catch (error) {
+      toast.error("Internal Server! If you are facing several errors please contact alluremensfashion@gmail.com")
     }
   }
 
@@ -108,52 +154,97 @@ function page() {
       <Navbar  />
       <div className='min-h-[calc(100vh-70px)] p-6 mt-17.5 flex flex-col'>
         <div className='text-2xl text-center mb-3 w-[90vw]'>
-          Welcome to Alure <span className='font-bold'>{Name}</span>
+          Welcome to AllUre <span className='font-bold'>{Name}</span>
         </div>
-        <div className='flex flex-col w-[95vw] justify-center ' >
-          <div className=' shadow-md w-[90vw]'>
-            <span onClick={() => setgridcol(true)
-            } className='text-xl  font-bold  '>
+        <div className='flex flex-col w-[95vw] gap-4 justify-center ' >
+          <div className=' shadow-md w-[90vw] '>
+            <span onClick={() => setgridcol(!gridcol)
+            } className='text-xl flex justify-center items-center cursor-pointer text-left  font-bold  '>
               My Orders
-              <span onClick={() => setgridcol(true)
-              } className='material-symbol-outlineed'>{gridcol ? "expand_less" : "expand_more"}
+              <span onClick={() => setgridcol(!gridcol)
+              } className='material-symbol-outlineed cursor-pointer'>{gridcol ? <span className="material-symbols-outlined">
+arrow_drop_up
+</span> : <span className="material-symbols-outlined">
+arrow_drop_down
+</span>}
               </span>
             </span>
-            <div className={`grid justify-center items-center md:grid-cols-3 grid-cols-1 ${gridcol ? "block" : "hidden"}`}>
+            {
+              Order.length > 0 ? (
+                <div className={`grid justify-center items-center md:grid-cols-3 gap-2 grid-cols-1 ${gridcol ? "block" : "hidden"}`}>
               {Order.map((item, index) => (
-                <div className="md:w-[30vw] w-[90vw] flex flex-col p-4 shadow-md" key={index}>
-                  <Image src={getValidImageUrl(item.mainimgl || item.img, item._id || index)} alt="Image" className='md:w-[25vw] border-2 border-[#121212] rounded-lg w-[90vw] h-[30vh]' width={100} height={100}
+                <div className="md:w-[30vw] border-[#121212] border-2 rounded-lg w-[90vw] flex flex-col shadow-md" key={index}>
+                  <Image src={getValidImageUrl(item.mainimgl || item.img, item._id || index)} alt="Image" className='md:w-[25vw]  rounded-lg w-[90vw] h-[40vh]' width={100} height={100}
                     onError={() => handleImageError(item._id || index)} />
+                    <div className='flex flex-col bg-[#121212] p-1 justify-center items-center text-[#f8f6f2]'>
                   <span className='font-bold text-xl'>{item.product.title}</span>
-                  <span className="font-semibold text-lg">Rs.{item.Totalamount}/-</span>
-                  <span className='text-sm'>{"No Date"}</span>
-                  <button onClick={() => deleteOrder(item._id)} className='bg-[#c8a96a] rounded-lg  hover:text-md active:scale-90 hover:font-bold p-2 mt-2'>
+                  <span className="font-semibold text-lg garamond">Rs.{item.Totalamount}/-</span>
+                  <span className='text-sm'></span>
+                  <button onClick={() => deleteOrder(item._id)} className='bg-[#c8a96a] rounded-lg text-[#121212] hover:text-md active:scale-90 hover:font-bold p-2 mt-2'>
                     Cancel Order
                   </button>
+                    </div>
                 </div>)
               )}
             </div>
+              ):(
+                
+                <div className={`h-[40vh] flex justify-center items-center ${gridcol ? "block" : "hidden"}`}>
+<p>
+                  No Order Avalible.Please Order Some products.
+                  <a href='/#product' className='underline'>
+                  Order Now
+                  </a>
+                </p>
+                </div>
+            
+              )
+            }
           </div>
           <div className='flex flex-col justify-center w-[90vw] shadow-md'>
-            <span onClick={() => setgridcol(false)} className="text-xl font-bold">
+            <span onClick={() => setgridcol2(!gridcol2)} className="text-xl font-bold flex justify-center items-center cursor-pointer text-left">
               My Favourites
-              <span onClick={() => setgridcol(false)
-              } className='material-symbol-outlineed'>{gridcol ? "expand_more" : "expand_less"}
+              <span onClick={() => setgridcol2(!gridcol2)
+              } className='material-symbol-outlineed cursor-pointer'>{gridcol2 ? <span className="material-symbols-outlined">
+arrow_drop_down
+</span> : <span className="material-symbols-outlined">
+arrow_drop_up
+</span>}
               </span>
             </span>
+            {
+              fav.length > 0 ? (
+               
             <div
-              className={`flex flex-col ${gridcol ? "hidden" : "block"}`}>
+              className={`grid grid-cols-1 md:grid-cols-3 gap-4 ${gridcol2 ? "hidden" : "block"}`}>
               {fav.map((item, index) => (
-                <div className="md:w-[30vw] w-[90vw] flex flex-col p-4 shadow-md" key={index}>
-                  <Image src={getValidImageUrl(item.mainimgl || item.img, item._id || index)} alt="Image" className='md:w-[25vw] border-2 border-[#121212] rounded-lg w-[90vw] h-[30vh]' width={100} height={100}
+                <div className="md:w-[30vw] w-[90vw] border border-[#121212] rounded-md flex flex-col p-4 shadow-md" key={index}>
+                  <Image src={getValidImageUrl(item.mainimgl || item.img, item._id || index)} alt="Image" className='md:w-[25vw]  rounded-lg w-[90vw] h-[40vh]' width={100} height={100}
                     onError={() => handleImageError(item._id || index)} />
-                  <span className='font-bold text-xl'>{item.title}</span>
-                  <button className='bg-[#c8a96a] rounded-lg  hover:text-md active:scale-90 hover:font-bold p-2 mt-2'>
+                    <div className='flex flex-col bg-[#121212] p-1 justify-center items-center '>
+                  <span className='font-bold text-xl text-[#f8f6f2] text-left w-full p-1'>{item.title}</span>
+                  <a className='bg-[#c8a96a] rounded-lg   hover:text-md active:scale-90 hover:font-bold w-full p-2 text-center mt-2' href={`/${item.catogery}/${item.productId}`}>
+                  Buy Now
+                  </a>
+                  <button onClick={()=>deletefav(item.productId)} className='bg-[#c8a96a] rounded-lg  hover:text-md w-full active:scale-90 hover:font-bold p-2 mt-2'>
                     Remove Favourite
                   </button>
+                    </div>
                 </div>)
               )}
-            </div>
+            </div> 
+              ):(
+                
+                <div className={`h-[40vh] flex justify-center items-center ${gridcol2 ? "block" : "hidden"}`}>
+<p>
+                  No Favourite items Avalible.Prefer your choice now.
+                  <a href='/#product' className='underline'>
+                  Add Favourite
+                  </a>
+                </p>
+                </div>
+              ) 
+            }
           </div>
         </div>
       </div>

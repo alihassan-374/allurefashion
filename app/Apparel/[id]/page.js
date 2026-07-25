@@ -16,7 +16,7 @@ function page() {
   const length = 3;
   const router = useRouter();
   const { data: session, status } = useSession();
-  const [fav, setfav] = useState(true);
+  const [fav, setfav] = useState(false);
   useEffect(() => {
     let findproduct = async (Id) => {
       try {

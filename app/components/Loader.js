@@ -8,11 +8,11 @@ function Loader() {
       <img src="/AllUre.png" alt="Logo" className="w-20 h-20 z-10" />
 
       {/* Rotating loader ring */}
-      <span className='font-bold text-2xl '>
+      <span className='font-bold text-2xl text-[#121212]'>
         Loading...
       </span>
     </div>
       )
 }
 
-      export default Loader
+export default Loader

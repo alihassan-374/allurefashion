@@ -3,7 +3,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 function Footer() {
   return (
-    <div className='bg-[#c8a96a] mt-10 pr-0 max-w-screen p-8 flex justify-center items-center m-0  gap-4 flex-col text-[#121212]' >
+    <div className='bg-[#121212] text-[#f8f6f2] mt-10 pr-0 w-screen p-8 flex justify-center items-center m-0  gap-4 flex-col ' >
       <span>Copyright © 2026 AllUre. All rights reserved.</span>
       <span>Made with &hearts; by <Link href={"https://www.instagram.com/maskedcodingwithali/?hl=en"}>Ali Hassan</Link></span>
 
@@ -26,10 +26,10 @@ function Footer() {
         </ul>
       </div>
       <ul className='flex gap-4'>
-        <Link href={"/"}><li><Image className='invert-100' src="/insta.svg" width={20} height={20} alt='social-media-icon' /></li></Link>
-        <Link href={"/"}><li><Image className='invert-100' src="/facebook.svg" width={20} height={20} alt='social-media-icon' /></li></Link>
-        <Link href={""}><li><Image className='invert-100' src="/tiktok.svg" width={20} height={20} alt='social-media-icon' /></li></Link>
-        <Link href={"mailto:alluremensfashion@gmail.com"}><li><Image className='invert-100' src="/mail.svg" width={35} height={35} alt='social-media-icon' /></li></Link>
+        <Link href={"/"}><li><Image  src="/insta.svg" width={20} height={20} alt='social-media-icon' /></li></Link>
+        <Link href={"/"}><li><Image  src="/facebook.svg" width={20} height={20} alt='social-media-icon' /></li></Link>
+        <Link href={""}><li><Image  src="/tiktok.svg" width={20} height={20} alt='social-media-icon' /></li></Link>
+        <Link href={"mailto:alluremensfashion@gmail.com"}><li><Image  src="/mail.svg" width={35} height={35} alt='social-media-icon' /></li></Link>
       </ul>
     </div>
 

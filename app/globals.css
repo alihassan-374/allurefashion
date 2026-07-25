@@ -5,6 +5,11 @@ body {
   font-weight: 200;
   font-style: normal;
 }
-*{
-  outline:2px solid black;
+
+
+.garamond {
+  font-family: "EB Garamond", serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
 }

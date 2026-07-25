@@ -6,7 +6,7 @@ function page() {
   return (
     <div className='-fit flex flex-col'>
       <Navbar/>
-      <div className='mt-17.5 min-h-[calc(100vh-70px)] bg-[#f8f6f2] flex flex-col'>
+      <div className='min-h-[calc(100vh-70px)] bg-[#f8f6f2] flex flex-col'>
         <div className='ml-2 mt-4'>
             Hi, 
             <br/>

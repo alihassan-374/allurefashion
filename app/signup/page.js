@@ -32,8 +32,8 @@ function page() {
             });
             return res.json();
 
-
         } catch (error) {
+            console.log("asdf")
             toast.error("Failed to verify your Email. Please try again.");
         }
     }
@@ -68,13 +68,20 @@ function page() {
         if (data.success) {
             router.push(`/signup/verify/${encodeURIComponent(email)}`);
             setverification(true)
-        } else {
+        } else if(data.message === "User already exists") 
+        {
             setverification(false)
+            seterror("User already exists. Please login instead.")
+            router.push(`/login`);
+        }else
+            {
+            setverification(false)
+            console.log("Failed to verify your Email. Please try again.")
             seterror("Failed to verify your Email. Please try again.")
         }
     }
     return (
-        <div className='min-h-screen' >
+        <div className='min-h-screen bg-[#f8f6f2]' >
             <Navbar />
             <div className='min-h-[calc(100vh-70px)] flex flex-col justify-center items-center'>
                 <div className='text-3xl font-bold mb-8'>
@@ -113,8 +120,8 @@ function page() {
                     <span className='text-lg font-semibold'>Contine With Email</span>
                     <form onSubmit={handleSubmit} className='w-full flex gap-6 justify-center items-center flex-col'>
                         <input type="text" disabled={verification} onChange={(e) => setemail(e.target.value)} className='outline-2 text-[#121212] p-2 outline-gray-700 focus:outline-[#121212] rounded-lg w-[90%] md:w-[40%]' placeholder='Enter your Email' />
-                        <div>
-                            <input type={`${hide ? "password" : "text"}`} disabled={verification} onChange={(e) => setpassword(e.target.value)} className='outline-2 text-[#121212] p-2 outline-gray-700 focus:outline-[#121212] rounded-lg w-[90%] md:w-[40%]' placeholder='Enter your password' />
+                        <div className='flex gap-2 justify-center w-full items-center'>
+                            <input type={`${hide ? "password" : "text"}`} disabled={verification} onChange={(e) => setpassword(e.target.value)} className='outline-2 text-[#121212] p-2 outline-gray-700 focus:outline-[#121212] rounded-lg w-[90%] md:w-[40%]' placeholder='Create your password' />
                             <span className="material-symbols-outlined" onClick={() => sethide(!hide)}>
                                 {hide ? "visibility" : "visibility_off"}
                             </span>

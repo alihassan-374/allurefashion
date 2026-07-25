@@ -11,11 +11,11 @@ export async function DELETE(request) {
         } 
         const del = await Order.findByIdAndDelete(id);
         if(del){
-            return new Response(JSON.stringify({success:false,message:"Order Deleted Successfully"}),{status:200,headers:{"Content-Type": "application/json"}})
+            return new Response(JSON.stringify({success:true,message:"Order Deleted Successfully"}),{status:200,headers:{"Content-Type": "application/json"}})
         }else{
             return new Response(JSON.stringify({success:false,message:"Order not found!"}),{status:404,headers:{"Content-Type": "application/json"}})
         }
     } catch (e) {
-        return new Response(JSON.stringify({success:true,message:"Internal Server Error!",error:e}),{status:500,headers:{"Content-Type": "application/json"}})
+        return new Response(JSON.stringify({success:false,message:"Internal Server Error!",error:e}),{status:500,headers:{"Content-Type": "application/json"}})
     }
 }

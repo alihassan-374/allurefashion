@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const OrderSachema = new mongoose.Schema({
-    email: { type: String, required: true, unique: true },
+    email: { type: String, required: true },
     name: { type: String, required: true },
     phone: { type: Number, required: true },
     address: {

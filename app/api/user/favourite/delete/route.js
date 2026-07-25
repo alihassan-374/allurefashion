@@ -1,5 +1,6 @@
 import connectDB from "@/app/lib/mongodb";
 import User from "@/app/Sachema/User";
+import mongoose from "mongoose";
 export async function DELETE(req) {
     try {
         await connectDB();
@@ -8,12 +9,19 @@ export async function DELETE(req) {
             return new Response(JSON.stringify({ success: false, message: "Product or Email Not Found!" }, { status: 404, header: { "Content-Type": "application/json" } }),)
         }
         const Userupdate = await User.findOneAndUpdate({ email: email },
-            {$pull:{favourite:{productId:productId}}},
-            {new:true}
+            {
+                $pull: {
+                    favourite: {
+                        productId: new mongoose.Types.ObjectId(productId),
+                    },
+                },
+            },
+            { new: true }
         );
-        if(Userupdate){
+        if (Userupdate) {
+            console.log(Userupdate)
             return new Response(JSON.stringify({ success: true, message: "Favourite Removed!" }, { status: 200, header: { "Content-Type": "application/json" } }),)
-        }else {
+        } else {
             return new Response(JSON.stringify({ success: false, message: "Product is not Favourite!" }, { status: 404, header: { "Content-Type": "application/json" } }),)
         }
     } catch (error) {

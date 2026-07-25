@@ -12,6 +12,7 @@ const UserSachema = new mongoose.Schema({
       title: String,
         price: Number,
         mainimg: String,
+        catogery:String,
     }
   ]
 }, { timestamps: true }

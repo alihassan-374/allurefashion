@@ -69,7 +69,7 @@ useEffect(() => {
   }
 }
   return (
-    <div className='min-h-screen flex flex-col'>
+    <div className='md:min-h-screen  flex flex-col bg-[#f8f6f2]'>
       <Navbar/>
       <div className='mt-30 flex justify-center items-center flex-col'>
 <div className='text-4xl text-center font-bold my-4'>Login to continue</div>
@@ -115,7 +115,7 @@ useEffect(() => {
             <button
               disabled={verification}
               type="submit"
-              className={`bg-black px-2 py-1 rounded-full ${verification ? "opacity-60 cursor-not-allowed" : ""}`}
+              className={`bg-[#c8a96a] rounded-lg p-3 text-center transition active:scale-95 hover:font-bold ${verification ? "opacity-60 cursor-not-allowed" : ""}`}
             >Submit</button>
           </form>
         </div>
@@ -126,8 +126,8 @@ useEffect(() => {
     </div>: <div></div>
   }
 </div>
-<Footer/>
       </div>
+<Footer/>
       <ToastContainer 
       position = "bottom-right"/>
     </div>

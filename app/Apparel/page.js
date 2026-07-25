@@ -67,19 +67,26 @@ function page() {
     }))
   }
 
+  
   const filterdproduct = product.filter((item) => item.title.toLowerCase().includes(search.toLowerCase())) || item.description?.toLowerCase().includes(search.toLowerCase())
+  console.log(search)
+  console.log(filterdproduct)
 
   return (
     <div className='h-fit'>
       {loading  ? <loader/>:(
 <div>
+  
+          <p className='md:text-sm text-[8px] text-[#f8f6f2] text-center bg-[#121212] font-semibold'>
+All prices are in PKR.Products belongs to our trusted partners. Products are dropshipped via us.
+          </p>
         <Navbar />
       <div className=' min-h-[calc(100vh-70px)]  h-fit flex flex-col bg-[#f8f6f2] justify-center items-center'>
         {/* Upper Items */}
         <div className='flex flex-col justify-center mt-17.5 items-center'>
-          <span className='md:text-6xl text-4xl mt-2 font-bold text-[#121212]'>
+          <h1 className='md:text-6xl garamond text-4xl mt-2 font-bold text-[#121212]'>
             Apparel
-          </span>
+          </h1>
         </div>
         <div className='my-4 flex w-fit'>
           <input type='search'
@@ -91,20 +98,20 @@ function page() {
         {searchToggle ? (
           <div>
             {filterdproduct.length > 0 ?
-              (<div className='grid grid-cols-1 md:grid-cols-3 p-2 w-[95vw]'>
+              (<div className='grid grid-cols-1 md:grid-cols-3 gap-2 w-[95vw]'>
                 {filterdproduct.map((item, index) => (
-                  <div key={index} className='rounded-lg border-2 border-[#121212] md:w-[25vw] mx-2 p-4 w-[90vw] flex flex-col'>
-                    {console.log(index)}
+                  <div key={index} className='rounded-lg border-2 border-[#121212] md:w-[25vw] mx-2 w-[90vw] flex flex-col'>
                     <div>
-                      <Image
-                        src={getValidImageUrl(item.mainimgl || item.img, item._id || index)} alt="Image" className='md:w-[25vw] border-2 border-[#121212] rounded-lg w-[90vw] h-[30vh]' width={50} height={50}
-                        onError={() => handleImageError(item._id || index)} />
+                      <img 
+                        src={getValidImageUrl(item.mainimgl || item.img, item._id || index)} alt="Image"  width={50} height={50}
+                        onError={() => handleImageError(item._id || index)} className="w-full h-full object-cover rounded-lg hover:scale-100 transition-transform duration-300" />
                     </div>
-                    <div>
-                      <span className='text-xl font-bold '>{item.title}</span>
+                    <div className='bg-[#121212]  mx-auto w-full'>
+                      <h2 className='text-lg font-bold text-[#f8f6f2] ml-4 garamond'>{item.title}</h2>
+                      <h3 className='text-lg font-bold text-[#f8f6f2] ml-4 garamond'>Rs.{item.price}/-</h3>
                       <div className='button mt-4 w-full flex flex-row justify-between items-center'>
-                        <a href={`/Apparel/${item._id}`} className='bg-[#c8a96a] rounded-lg  hover:text-md hover:font-bold p-2 active:scale-90'>
-                          Buy Now
+                        <a href={`/Apparel/${item._id}`} className='bg-[#c8a96a] rounded-lg  hover:text-md w-full hover:font-bold p-2 active:scale-90'>
+                          View More
                         </a>
                       </div>
                     </div>
@@ -128,24 +135,24 @@ function page() {
               :
               (
                 // Grid of Prodcuts
-                <div className='grid grid-cols-1 md:grid-cols-3 p-2 w-[95vw]'>
+                <div className='grid grid-cols-1 md:grid-cols-3 p-2 w-[95vw] gap-1'>
                   {product.map((item, index) => (
-                    <div key={index} className='rounded-lg border-2 border-[#121212] md:w-[25vw] mx-2 p-4 w-[90vw] flex flex-col'>
-                      {console.log(index)}
-                      <div>
-                        <Image
-                          src={getValidImageUrl(item.mainimgl || item.img, item._id || index)} alt="Image" className='md:w-[25vw] border-2 border-[#121212] rounded-lg w-[90vw] h-[30vh]' width={50} height={50}
-                          onError={() => handleImageError(item._id || index)} />
-                      </div>
-                      <div>
-                        <span className='text-xl font-bold '>{item.title}</span>
-                        <div className='button mt-4 w-full flex flex-row justify-between items-center'>
-                          <a href={`/Apparel/${item._id}`} className='bg-[#c8a96a] rounded-lg  hover:text-md hover:font-bold p-2 active:scale-90'>
-                            Buy Now
-                          </a>
-                        </div>
+                     <div key={index} className='rounded-lg border-2 border-[#121212] md:w-[25vw] mx-2 w-[90vw] flex flex-col'>
+                    <div>
+                      <img 
+                        src={getValidImageUrl(item.mainimgl || item.img, item._id || index)} alt="Image"  width={50} height={50}
+                        onError={() => handleImageError(item._id || index)} className="w-full h-full object-cover rounded-lg hover:scale-100 transition-transform duration-300" />
+                    </div>
+                    <div className='bg-[#121212]  mx-auto w-full'>
+                      <h2 className='text-lg font-bold text-[#f8f6f2] ml-4 garamond'>{item.title}</h2>
+                      <h3 className='text-lg font-bold text-[#f8f6f2] ml-4 garamond'>Rs.{item.price}/-</h3>
+                      <div className='button mt-4 w-full flex flex-row justify-between items-center'>
+                        <a href={`/Apparel/${item._id}`} className='bg-[#c8a96a] rounded-lg  hover:text-md w-full hover:font-bold p-2 active:scale-90'>
+                          View More
+                        </a>
                       </div>
                     </div>
+                  </div>
                   ))}
                 </div>
               )
