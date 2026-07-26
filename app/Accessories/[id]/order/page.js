@@ -26,7 +26,7 @@ function QuickOrder() {
   const [error, seterror] = useState(true);
   const [quantity, setquantity] = useState("")
   const [product, setproduct] = useState({})
-  const [payment, setpayment] = useState("")
+  const [payment, setpayment] = useState("Cash On Delivery")
   const [Check, setCheck] = useState(false)
   useEffect(() => {
     let findproduct = async (Id) => {
@@ -36,13 +36,11 @@ function QuickOrder() {
         console.log(data)
         if (data.success) {
           setproduct(data.product)
-          seterror("")
         } else {
-          seterror("Product Not Fuound")
+
         }
       } catch (error) {
-        seterror("Internal Server Error!If you are facing several errors please contact alluremensfashion@gamil.com.")
-        console.log(error)
+        toast.error("Internal Server Error!")
       }
     }
     findproduct(productId)
@@ -57,6 +55,8 @@ function QuickOrder() {
   useEffect(() => {
     if (
       name &&
+      email &&
+      quantity &&
       phone &&
       village &&
       tehsil &&
@@ -70,21 +70,20 @@ function QuickOrder() {
     } else {
       seterror(true);
     }
-  }, [name, phone, village, tehsil, district, division, province, TID]);
+  }, [name, phone, village, tehsil, district, division, province, TID,Check]);
 
 
   if (!session) return null;
 
   const handleQuickOrder = async (e) => {
     e.preventDefault();
-    // Order validation failed: Totalamount: Path `Totalamount` is required., product.productId: Path `product.productId` is required., email: Path `email` is required.
-    const orderData = {
+        const orderData = {
       productId: productId,
       name,
       phone,
       address: { village, tehsil, district, division, province },
       transactionId: TID,
-      email: email,
+      email: email || session?.user?.email,
       quantity,
     };
 
@@ -95,10 +94,11 @@ function QuickOrder() {
         body: JSON.stringify(orderData),
       });
       const data = await res.json();
-      if (data.success) {
-        toast.success("Order placed successfully!");
-        router.push(`/${session.email}`)
+      if (data.emailSent) {
+        toast.success(data.message);
+        router.push(`/${session.user.email}`)
       } else {
+        router.push(`/${session.user.email}`)
         toast.error(data.message);
       }
     } catch (err) {
@@ -108,8 +108,24 @@ function QuickOrder() {
 
   const totalamount = product.price + 300;
 
+  console.log({
+  name,
+  email,
+  phone,
+  village,
+  tehsil,
+  district,
+  division,
+  province,
+  quantity,
+  payment,
+  TID,
+  Check,
+  error,
+});
+
   return (
-    <div className=" flex h-fit justify-between items-center flex-col">
+    <div className=" flex bg-[#f8f6f2] overflow-x-hidden h-fit justify-between items-center flex-col">
       <Navbar />
       <div className="bg-[#f8f6f2] p-6 rounded-lg shadow-md max-w-sm mb-10 md:max-w-xl w-full mt-30">
         <h2 className="text-4xl font-bold mb-4 text-black mx-auto w-full">Order</h2>
@@ -131,7 +147,7 @@ function QuickOrder() {
           <input
             type="text"
             placeholder="Email"
-            value={email || session.email}
+            value={email}
             onChange={(e) => setemail(e.target.value)}
             className="rounded-lg border text-black px-3 py-2 focus:outline-green-500"
             required
@@ -233,7 +249,7 @@ function QuickOrder() {
             onChange={(e) => setTID(e.target.value)}
             className="rounded-lg border text-black px-3 py-2 focus:outline-green-500"
           />
-          <div>
+          <div className="flex gap-1 justify-center items-center">
             <label htmlFor="terms">I agree to <a className="text-[#121212] underline" target="_blank" href="/terms">Terms & Condiions</a> and <a href="/privacypolicy" target="_blank" className="text-[#121212] underline">Privacy Policy</a></label>
             <input type="checkbox"
               required

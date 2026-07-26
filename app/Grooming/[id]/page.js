@@ -16,7 +16,7 @@ function page() {
   const length = 3;
   const router = useRouter();
   const { data: session, status } = useSession();
-  const [fav, setfav] = useState(true);
+  const [fav, setfav] = useState(false);
   useEffect(() => {
     let findproduct = async (Id) => {
       try {
@@ -190,7 +190,7 @@ addfavourite()
                 </span>
               </div>
               <div className='flex gap-2 justify-center items-center'>
-                <a className='bg-[#c8a96a] rounded-lg  hover:text-md active:scale-90 hover:font-bold p-2 mt-2' href={`/Apparel/${product._id}/order`}>
+                <a className='bg-[#c8a96a] rounded-lg  hover:text-md active:scale-90 hover:font-bold p-2 mt-2' href={`/Grooming/${product._id}/order`}>
                   Buy Now </a>
                 <span onClick={()=>handleclikc()} className="material-symbols-outlined cursor-pointer active:scale-95">
                   {fav? "check":"favorite"}
