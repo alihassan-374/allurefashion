@@ -73,7 +73,7 @@ function page() {
   console.log(filterdproduct)
 
   return (
-    <div className='h-fit'>
+    <div className='h-fit overflow-x-hidden'>
       {loading  ? <loader/>:(
 <div>
   
@@ -103,7 +103,7 @@ All prices are in PKR.Products belongs to our trusted partners. Products are dro
                   <div key={index} className='rounded-lg border-2 border-[#121212] md:w-[25vw] mx-2 w-[90vw] flex flex-col'>
                     <div>
                       <img 
-                        src={getValidImageUrl(item.mainimgl || item.img, item._id || index)} alt="Image"  width={50} height={50}
+                        src={getValidImageUrl(item.mainimgl || item.img, item._id || index)} alt="Image"  width={1200} height={1500}
                         onError={() => handleImageError(item._id || index)} className="w-full h-full object-cover rounded-lg hover:scale-100 transition-transform duration-300" />
                     </div>
                     <div className='bg-[#121212]  mx-auto w-full'>
@@ -135,12 +135,12 @@ All prices are in PKR.Products belongs to our trusted partners. Products are dro
               :
               (
                 // Grid of Prodcuts
-                <div className='grid grid-cols-1 md:grid-cols-3 p-2 w-[95vw] gap-1'>
+                <div className='grid grid-cols-1 md:grid-cols-3 p-2 w-[95vw] gap-1 '>
                   {product.map((item, index) => (
                      <div key={index} className='rounded-lg border-2 border-[#121212] md:w-[25vw] mx-2 w-[90vw] flex flex-col'>
                     <div>
                       <img 
-                        src={getValidImageUrl(item.mainimgl || item.img, item._id || index)} alt="Image"  width={50} height={50}
+                        src={getValidImageUrl(item.mainimgl || item.img, item._id || index)} alt="Image"  width={1200} height={1500}
                         onError={() => handleImageError(item._id || index)} className="w-full h-full object-cover rounded-lg hover:scale-100 transition-transform duration-300" />
                     </div>
                     <div className='bg-[#121212]  mx-auto w-full'>
