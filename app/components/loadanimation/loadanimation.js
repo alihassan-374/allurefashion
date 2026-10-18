@@ -4,38 +4,50 @@ import { useEffect, useState } from "react";
 import "./loadanimation.css";
 
 export default function Intro({ onFinish }) {
-  const [text, setText] = useState(false);
+  const [showTagline, setShowTagline] = useState(false);
+  const [exiting, setExiting] = useState(false);
 
   useEffect(() => {
-    const first = setTimeout(() => {
-      setText(true);
-    }, 3000);
+    const taglineTimer = setTimeout(() => {
+      setShowTagline(true);
+    }, 1800);
 
-    const second = setTimeout(() => {
-      onFinish();
-    }, 7000);
+    const exitTimer = setTimeout(() => {
+      setExiting(true);
+    }, 5500);
+
+    const finishTimer = setTimeout(() => {
+      onFinish?.();
+    }, 6200);
 
     return () => {
-      clearTimeout(first);
-      clearTimeout(second);
+      clearTimeout(taglineTimer);
+      clearTimeout(exitTimer);
+      clearTimeout(finishTimer);
     };
   }, [onFinish]);
 
   return (
-    <div className="h-screen w-screen bg-[#121212] flex flex-col justify-start items-center">
-      <div className="flex flex-col my-auto w-full h-full justify-center items-center">
-        <span className="typing-text md:text-4xl text-2xl relative bottom-[25vh] font-bold text-[#c8a96a] block">
-          Welcome to AllUre
-        </span>
+    <main
+      className={`intro-screen ${exiting ? "intro-exit" : ""}`}
+    >
+      <div className="intro-content">
+        <span className="intro-label">WELCOME TO</span>
 
-        <span
-          className={`typing-text md:text-2xl text-xl relative bottom-[25vh] font-bold text-[#c8a96a] ${
-            text ? "block" : "hidden"
+        <h1 className="intro-title">
+          All<span>Ure</span>
+        </h1>
+
+        <div className="intro-line" />
+
+        <p
+          className={`intro-tagline ${
+            showTagline ? "tagline-visible" : ""
           }`}
         >
           The Art Of Attraction.
-        </span>
+        </p>
       </div>
-    </div>
+    </main>
   );
 }
